@@ -11,6 +11,11 @@ package prototype.objets;
 public class Aba extends Objet{
     
     public Aba(int x, int y){
-        super(null, x, y);
+        super("ressources/1.bmp", x, y);
+    }
+    
+    @Override public void step(){
+    	x+=Math.random()*100-50;
+    	y+=Math.random()*100-50;
     }
 }

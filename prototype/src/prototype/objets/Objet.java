@@ -4,8 +4,15 @@
  */
 package prototype.objets;
 
-import java.awt.Graphics;
-import java.awt.Image;
+
+
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import prototype.Prototype;
 
 /**
@@ -13,20 +20,38 @@ import prototype.Prototype;
  * @author clement
  */
 public abstract class Objet {
-    private Image img;
+    private BufferedImage img;
     protected int x,y;
     
-    public Objet(Image img, int x, int y){
+    public Objet(String imgLink, int x, int y){
         this.x = x;
         this.y = y;
-        this.img = img;
+        img = null;
+        try {
+            img = ImageIO.read(new File(imgLink));
+        } catch (IOException e) {
+        	System.out.println("Erreur du chargement de l'image "+imgLink);
+        	e.printStackTrace();
+        }
         init();
     }
+    
     private void init(){
         Prototype.addEntities(this);
     }
     
-    public void paint(){
-        Prototype.fenetre.getGraphics().drawImage(img,x,y,null);
+    public BufferedImage getImage(){
+        return img;
     }
+    
+    public int getX(){
+    	return x;
+    }
+    
+    public int getY(){
+    	return y;
+    }
+    
+    public abstract void step();
+    
 }
