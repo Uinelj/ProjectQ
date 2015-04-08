@@ -19,6 +19,9 @@ public class Prototype {
     
     public static Fenetre fenetre;
     public static ArrayList<Objet> entities;
+    private final static int FPS = 60; //frame par seconde
+    private final static int CPS = 100; //calcul par seconde
+    
     /**
      * @param args the command line arguments
      */
@@ -40,14 +43,10 @@ public class Prototype {
     	
     	@Override
 		public void run() {
-    		//Calculer les FPS!
-			boolean cont = true;
-	        while(cont){
-	        	fenetre.canvas1.getGraphics().clearRect(0, 0, 640, 480);
-	            for(Objet o:entities){
-	            	fenetre.canvas1.getGraphics().drawImage(o.getImage(), o.getX(), o.getY(), fenetre);
-	            }
-	        }
+        	fenetre.canvas1.getGraphics().clearRect(0, 0, 640, 480);
+            for(Objet o:entities){
+            	fenetre.canvas1.getGraphics().drawImage(o.getImage(), o.getX(), o.getY(), fenetre);
+            }
 		}	
     }
     
@@ -55,14 +54,10 @@ public class Prototype {
     private class GameThread extends TimerTask{
     	@Override
 		public void run() {
-    		//Utiliser des timer pour caper à 60 fps
-    		boolean cont = true;
-    		while(cont){
-	    		for(Objet o:entities){
-	            	o.step();
-	            }
-    		}
-		}	
+    		for(Objet o:entities){
+            	o.step();
+            }
+		}
     }
     
     
@@ -73,8 +68,8 @@ public class Prototype {
     	GameThread game = new GameThread();
     	Timer gra = new Timer(true);
     	Timer gam = new Timer(true);
-    	gra.scheduleAtFixedRate(graph,17, 1);
-    	gam.scheduleAtFixedRate(game, 17, 1);
+    	gra.scheduleAtFixedRate(graph,1000/FPS, 1000/FPS);
+    	gam.scheduleAtFixedRate(game, 1000/CPS, 1000/CPS);
     }
     
     public static void addEntities(Objet o){
